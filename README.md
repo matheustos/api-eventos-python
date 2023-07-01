@@ -1,2 +1,2 @@
 # api-eventos-python
-API de criação de eventos criada em python
+API de criação de eventos feita em python
