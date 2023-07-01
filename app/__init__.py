@@ -6,8 +6,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'chave_secreta'
 app.config['JSON_SORT_KEYS'] = False  # Desabilita a ordenação dos JSONs
 
-# Importação dos controllers
-from controller.app import bp
+# Importação das views
+import views
+bp = views.bp
 
 # Registro do blueprint
 app.register_blueprint(bp, url_prefix='/eventos')

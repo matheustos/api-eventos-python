@@ -1,10 +1,7 @@
-from models.app import create, cancelar, pegaData
-from validators.validacaoEventos import validaData, validaInformacoes, validaCancelamento
-from flask import Blueprint, request, jsonify
+from validators.validacaoEventos import validaCancelamento, validaData, validaInformacoes
+from Model.models import create, cancelar, pegaData
+from flask import request, jsonify
 
-bp = Blueprint('eventos', __name__)
-
-@bp.route('/create', methods=['POST'])
 def create_controller():
 
     dados = request.form
@@ -38,8 +35,7 @@ def create_controller():
             return jsonify({"Erro": "A data do evento deve ser superior à data de hoje."})
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
-
-@bp.route('/cancelar', methods=['POST'])
+    
 def cancelar_controller():
 
     dados = request.form
@@ -61,13 +57,3 @@ def cancelar_controller():
             return jsonify({"Erro": "Não é possivel cancelar no dia que se inicia o evento."})
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
-    
-
-
-
-    
-
-
-
-
-

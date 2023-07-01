@@ -1,8 +1,7 @@
 from . import bd
-from datetime import date, datetime
+from datetime import date
 
 conexao = bd.conexao
-
 def create(nome, data_inicio, data_termino, hora_inicio, hora_termino, local, descricao, vagas, categoria):
 
     status = "Aberto para inscriçoes"
