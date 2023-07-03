@@ -37,9 +37,10 @@ def validaData(dados):
         return False
     return True
 
-def validaCancelamento(dados):
+def validaDados(dados):
     if not dados.get('id'):
             return False
     if not dados.get('id_user'):
         return False
     return True
+

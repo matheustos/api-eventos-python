@@ -22,9 +22,6 @@ def pegaData(id):
     # pega a data de hoje
     data_hoje = date.today()
 
-    #converte a string recebida via formulário para o formato date
-    #data_formatada = datetime.strptime(data, "%Y-%m-%d").date()
-
     # verifica se a data informada é a mesma de hoje
     if data == data_hoje:
         return False
@@ -39,3 +36,39 @@ def cancelar(id):
     comando = f'UPDATE eventos SET status = "{status}" WHERE id = "{id}"'
     cursor.execute(comando)
     conexao.commit()
+
+def iniciar(id):
+
+    status = "Em andamento"
+
+    cursor = conexao.cursor()
+    comando = f'UPDATE eventos SET status = "{status}" WHERE id = "{id}"'
+    cursor.execute(comando)
+    conexao.commit()
+
+def concluir(id):
+
+    cursor = conexao.cursor()
+    comando = f'SELECT status FROM eventos WHERE id = "{id}"'
+    cursor.execute(comando)
+    resultado = cursor.fetchone()
+
+    status = resultado[0]
+
+    if status == "Em andamento":
+        
+        status_update = "Concluído"
+
+        comando = f'UPDATE eventos SET status = "{status_update}" WHERE id = "{id}"'
+        cursor.execute(comando)
+        conexao.commit()
+
+def listarEventos():
+
+    cursor = conexao.cursor()
+    comando = f'SELECT * FROM eventos'
+    cursor.execute(comando)
+    resultado = cursor.fetchall()
+
+    return resultado
+

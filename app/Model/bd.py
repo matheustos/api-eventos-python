@@ -10,3 +10,4 @@ except:
     print("Erro ao conectar no banco de dados.")
 
 cursor = conexao.cursor()
+
