@@ -1,4 +1,5 @@
-from controller.main import create_controller, cancelar_controller, iniciar_controller, concluir_controller, listarEventos_controller
+from controller.main import create_controller, cancelar_controller, iniciar_controller, concluir_controller, listarEventos_controller, listarEventosPorData_controller, listarEventosPorCat_controller
+from controller.inscritos import inscricao_controller
 from flask import Blueprint
 
 
@@ -28,3 +29,18 @@ def concluirEvento():
 @bp.route('/listar_eventos', methods=['GET'])
 def listarEventos():
     return listarEventos_controller()
+
+# rota para listar eventos de acordo com a data passada
+@bp.route('/listar/data', methods=['POST'])
+def listarEventosPorData():
+    return listarEventosPorData_controller()
+
+# rota para listar eventos de acordo com a categoria informada
+@bp.route('/listar/categoria', methods=['POST'])
+def listarPorCategoria():
+    return listarEventosPorCat_controller()
+
+# rota para realizar inscrições
+@bp.route('/inscricao', methods=['POST'])
+def inscricao():
+    return inscricao_controller()

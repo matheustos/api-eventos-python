@@ -1,23 +1,24 @@
 from validators.validacaoEventos import validaDados, validaData, validaInformacoes
-from Model.models import create, cancelar, pegaData, iniciar, concluir, listarEventos
-from flask import request, jsonify, make_response
+from Model.models import create, cancelar, pegaData, iniciar, concluir, listarEventos, listarEventosPorData, listarEventosPorCat
+from flask import request, jsonify
 from datetime import date, timedelta
-import json
+from json import dumps
 
+# função para criar novo evento
 def create_controller():
 
     dados = request.form
     
-    nome = request.form['nome']
-    inicio = request.form['data_inicio']
-    termino = request.form['data_termino']
-    hora_inicio = request.form['hora_inicio']
-    hora_termino = request.form['hora_termino']
-    local = request.form['local']
-    descricao = request.form['descricao']
-    vagas = request.form['vagas']
-    categoria = request.form['categoria']
-    id_user = request.form['id_user']
+    nome = request.form['nome'].strip()
+    inicio = request.form['data_inicio'].strip()
+    termino = request.form['data_termino'].strip()
+    hora_inicio = request.form['hora_inicio'].strip()
+    hora_termino = request.form['hora_termino'].strip()
+    local = request.form['local'].strip()
+    descricao = request.form['descricao'].strip()
+    vagas = request.form['vagas'].strip()
+    categoria = request.form['categoria'].strip()
+    id_user = request.form['id_user'].strip()
 
     # valida se todas as requisições foram passadas
     if validaInformacoes(dados=dados):
@@ -38,11 +39,12 @@ def create_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
 
+#função para iniciar evento
 def iniciar_controller():
 
     dados = request.form
-    id = request.form['id']
-    id_user = request.form['id_user']
+    id = request.form['id'].strip()
+    id_user = request.form['id_user'].strip()
 
     # valida se todas as requisições foram passadas
     if validaDados(dados=dados):
@@ -53,7 +55,7 @@ def iniciar_controller():
                 try:
                     iniciar(id=id)
                 except: 
-                        return jsonify({"Erro": "Não foi possível iniciar o evento."})
+                        return jsonify({"Erro": "Não foi possível iniciar o evento."}) 
                 else:
                     return jsonify({"Sucesso": "Evento inciado com sucesso."})
             else:
@@ -62,12 +64,13 @@ def iniciar_controller():
             return jsonify({"Erro": "Só é possível iniciar o evento no dia agendado."})
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
-    
+
+# função para cancelar evento
 def cancelar_controller():
 
     dados = request.form
-    id = request.form['id']
-    id_user = request.form['id_user']
+    id = request.form['id'].strip()
+    id_user = request.form['id_user'].strip()
 
     # valida se todas as requisições foram passadas
     if validaDados(dados=dados):
@@ -88,11 +91,12 @@ def cancelar_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
 
+# função para concluir evento
 def concluir_controller():
 
     dados = request.form
-    id = request.form['id']
-    id_user = request.form['id_user']
+    id = request.form['id'].strip()
+    id_user = request.form['id_user'].strip()
 
     # valida se todas as requisições foram passadas
     if validaDados(dados=dados):
@@ -110,6 +114,7 @@ def concluir_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
     
+# função para listar todos os eventos
 def listarEventos_controller():
 
     def custom_serialization(obj):
@@ -136,7 +141,78 @@ def listarEventos_controller():
                 "Status": evento[10]
             })
 
-        return json.dumps(eventos, default=custom_serialization)
+        return dumps(eventos, default=custom_serialization)
     else:
         return jsonify({"Erro": "Nenhum evento encontrado."})
+
+# função para listar eventos por data
+def listarEventosPorData_controller():
+
+    def custom_serialization(obj):
+        if isinstance(obj, (date, timedelta)):
+            return str(obj)
+        raise TypeError(f"Objeto do tipo {type(obj).__name__} não pode ser serializado em JSON")
+
+    data = request.form['data_inicio'].strip()
+
+    if data:
+        resultado = listarEventosPorData(data)
+
+        if resultado:
+            eventos = []
+            for evento in resultado:
+                eventos.append({
+                    "id": evento[0],
+                    "Nome": evento[1],
+                    "Data de Inicio": evento[2],
+                    "Data de Termino": evento[3],
+                    "Hora de Inicio": evento[4],
+                    "Hora de Termino": evento[5],
+                    "Local": evento[6],
+                    "Descricao": evento[7],
+                    "Vagas": evento[8],
+                    "Categoria": evento[9],
+                    "Status": evento[10]
+                })
+
+            return dumps(eventos, default=custom_serialization)
+        else:
+            return jsonify({"Erro": "Nenhum evento com essa data foi encontrado."})
+    else:
+        return jsonify({"Erro": "A data de inicio do evento deve ser informada."})
     
+# função para listar eventos por categoria
+def listarEventosPorCat_controller():
+
+    def custom_serialization(obj):
+        if isinstance(obj, (date, timedelta)):
+            return str(obj)
+        raise TypeError(f"Objeto do tipo {type(obj).__name__} não pode ser serializado em JSON")
+
+    categoria = request.form['categoria'].strip()
+
+    if categoria:
+        resultado = listarEventosPorCat(categoria)
+
+        if resultado:
+            eventos = []
+            for evento in resultado:
+                eventos.append({
+                    "id": evento[0],
+                    "Nome": evento[1],
+                    "Data de Inicio": evento[2],
+                    "Data de Termino": evento[3],
+                    "Hora de Inicio": evento[4],
+                    "Hora de Termino": evento[5],
+                    "Local": evento[6],
+                    "Descricao": evento[7],
+                    "Vagas": evento[8],
+                    "Categoria": evento[9],
+                    "Status": evento[10]
+                })
+
+            return dumps(eventos, default=custom_serialization)
+        else:
+            return jsonify({"Erro": "Não existe nenhum evento dessa categoria."})
+    else:
+        return jsonify({"Erro": "A categoria deve ser informada."})
