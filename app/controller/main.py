@@ -4,7 +4,7 @@ from flask import request, jsonify
 from datetime import date, timedelta
 from json import dumps
 
-# função para criar novo evento
+# função para criar novo evento (administrador)
 def create_controller():
 
     dados = request.form
@@ -39,7 +39,7 @@ def create_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
 
-#função para iniciar evento
+# função para iniciar evento (administrador)
 def iniciar_controller():
 
     dados = request.form
@@ -65,7 +65,7 @@ def iniciar_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
 
-# função para cancelar evento
+# função para cancelar evento (administrador)
 def cancelar_controller():
 
     dados = request.form
@@ -91,7 +91,7 @@ def cancelar_controller():
     else:
         return jsonify({"Erro": "Todos os campos devem ser preenchidos."})
 
-# função para concluir evento
+# função para concluir evento (administrador)
 def concluir_controller():
 
     dados = request.form

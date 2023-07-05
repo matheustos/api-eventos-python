@@ -1,26 +1,26 @@
 from controller.main import create_controller, cancelar_controller, iniciar_controller, concluir_controller, listarEventos_controller, listarEventosPorData_controller, listarEventosPorCat_controller
-from controller.inscritos import inscricao_controller
+from controller.inscritos import inscricao_controller, inscritos_controller, presenca_controller
 from flask import Blueprint
 
 
 bp = Blueprint('eventos', __name__)
 
-# rota para criar evento
+# rota para criar evento (administrador)
 @bp.route('/create', methods=['POST'])
 def criarEvento():
     return create_controller()
     
-# rota para iniciar o evento
+# rota para iniciar o evento (administrador)
 @bp.route('/iniciar', methods=['POST'])
 def iniciarEvento():
     return iniciar_controller()
 
-# rota para cancelar o evento
+# rota para cancelar o evento (administrador)
 @bp.route('/cancelar', methods=['POST'])
 def cancelarEvento():
     return cancelar_controller()
 
-# rota para concluir o evento
+# rota para concluir o evento (administrador)
 @bp.route('/concluir', methods=['POST'])
 def concluirEvento():
     return concluir_controller()
@@ -44,3 +44,13 @@ def listarPorCategoria():
 @bp.route('/inscricao', methods=['POST'])
 def inscricao():
     return inscricao_controller()
+
+# rota para listar usuarios inscritos em um evento
+@bp.route('/inscricao/listar', methods=['POST'])
+def inscritos():
+    return inscritos_controller()
+
+# rota para confirmar presença de um usuário (administrador)
+@bp.route('/inscricao/presenca', methods=['POST'])
+def presenca():
+    return presenca_controller()

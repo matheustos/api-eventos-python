@@ -132,5 +132,22 @@ def verificaStatus(evento):
 
     return resultado
 
+# realizar busca de usuários inscritos em um evento
+def listar_inscritos(evento):
 
+    cursor = conexao.cursor()
+    comando = f'SELECT * FROM inscritos WHERE Evento = "{evento}"'
+    cursor.execute(comando)
+    resultado = cursor.fetchall()
 
+    return resultado
+
+# realizar confirmação de presença de um usuário
+def presenca(id_inscrito, evento):
+
+    status = "true"
+
+    cursor = conexao.cursor()
+    comando = f'UPDATE inscritos SET Presenca = "{status}" WHERE id = "{id_inscrito}" AND Evento = "{evento}"'
+    cursor.execute(comando)
+    conexao.commit()
