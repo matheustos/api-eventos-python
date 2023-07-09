@@ -11,16 +11,18 @@ def create(nome, data_inicio, data_termino, hora_inicio, hora_termino, local, de
     status = "Aberto para inscriçoes"
 
     cursor = conexao.cursor()
-    comando = f'INSERT INTO eventos (Nome, Inicio, Termino, Hora_inicio, Hora_termino, Local, Descricao, Vagas, Categoria, status) VALUES ("{nome}","{data_inicio}", "{data_termino}", "{hora_inicio}", "{hora_termino}", "{local}", "{descricao}", "{vagas}", "{categoria}", "{status}")'
-    cursor.execute(comando)
+    comando = f'INSERT INTO eventos (Nome, Inicio, Termino, Hora_inicio, Hora_termino, Local, Descricao, Vagas, Categoria, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    valores = (nome, data_inicio, data_termino, hora_inicio, hora_termino, local, descricao, vagas, categoria, status)
+    cursor.execute(comando, valores)
     conexao.commit()
 
 # busca a data de inicio de um evento e checa se é a mesma data de hoje
 def pegaData(id):
 
     cursor = conexao.cursor()
-    comando = f'SELECT Inicio FROM eventos WHERE id = "{id}"'
-    cursor.execute(comando)
+    comando = f'SELECT Inicio FROM eventos WHERE id = %s'
+    valor = (id)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchone()
 
     data = resultado[0]
@@ -38,8 +40,9 @@ def cancelar(id):
     status = "Cancelado"
 
     cursor = conexao.cursor()
-    comando = f'UPDATE eventos SET status = "{status}" WHERE id = "{id}"'
-    cursor.execute(comando)
+    comando = f'UPDATE eventos SET status = %s WHERE id = %s'
+    valores = (status, id)
+    cursor.execute(comando, valores)
     conexao.commit()
 
 # realiza alterção do status de um evento para "Em andamento"
@@ -48,7 +51,8 @@ def iniciar(id):
     status = "Em andamento"
 
     cursor = conexao.cursor()
-    comando = f'UPDATE eventos SET status = "{status}" WHERE id = "{id}"'
+    comando = f'UPDATE eventos SET status = %s WHERE id = %s'
+    valores = (status, id)
     cursor.execute(comando)
     conexao.commit()
 
@@ -56,8 +60,9 @@ def iniciar(id):
 def concluir(id):
 
     cursor = conexao.cursor()
-    comando = f'SELECT status FROM eventos WHERE id = "{id}"'
-    cursor.execute(comando)
+    comando = f'SELECT status FROM eventos WHERE id = %s'
+    valor = (id)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchone()
 
     status = resultado[0]
@@ -66,8 +71,9 @@ def concluir(id):
         
         status_update = "Concluído"
 
-        comando = f'UPDATE eventos SET status = "{status_update}" WHERE id = "{id}"'
-        cursor.execute(comando)
+        comando = f'UPDATE eventos SET status = %s WHERE id = %s'
+        valores = (status_update, id)
+        cursor.execute(comando, valores)
         conexao.commit()
 
 # busca todos os registros da tabela eventos
@@ -84,8 +90,9 @@ def listarEventos():
 def listarEventosPorData(data_inicio):
 
     cursor = conexao.cursor()
-    comando = f'SELECT * FROM eventos WHERE Inicio = "{data_inicio}"'
-    cursor.execute(comando)
+    comando = f'SELECT * FROM eventos WHERE Inicio = %s'
+    valor = (data_inicio)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchall()
 
     return resultado
@@ -94,8 +101,9 @@ def listarEventosPorData(data_inicio):
 def listarEventosPorCat(categoria):
 
     cursor = conexao.cursor()
-    comando = f'SELECT * FROM eventos WHERE Categoria = "{categoria}"'
-    cursor.execute(comando)
+    comando = f'SELECT * FROM eventos WHERE Categoria = %s'
+    valor = (categoria)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchall()
 
     return resultado
@@ -108,16 +116,36 @@ def inscricao(nome, evento):
     presenca = "false"
 
     cursor = conexao.cursor()
-    comando = f'INSERT INTO inscritos (Nome, Evento, Presenca) VALUES ("{nome}", "{evento}", "{presenca}")'
-    cursor.execute(comando)
+    comando = f'INSERT INTO inscritos (Nome, Evento, Presenca) VALUES (%s, %s, %s)'
+    valores = (nome, evento, presenca)
+    cursor.execute(comando, valores)
+    conexao.commit()
+
+# realiza redução de vagas quando um usuário se inscreve em um evento
+def modifica_vagas(evento):
+
+    cursor = conexao.cursor()
+    comando = f'SELECT Vagas FROM eventos WHERE Nome = %s'
+    valor = (evento)
+    cursor.execute(comando, valor)
+    resultado = cursor.fetchone()
+
+    vagas = resultado[0]
+    update_vagas = vagas - 1
+
+    cursor = conexao.cursor()
+    comando = f'UPDATE eventos SET Vagas = %s WHERE Nome = %s'
+    valores = (update_vagas, evento)
+    cursor.execute(comando, valores)
     conexao.commit()
 
 # busca evento por nome para checar se o evento existe
 def buscaEvento(evento):
     
     cursor = conexao.cursor()
-    comando = f'SELECT * FROM eventos WHERE Nome = "{evento}"'
-    cursor.execute(comando)
+    comando = f'SELECT * FROM eventos WHERE Nome = %s'
+    valor = (evento)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchone()
 
     return resultado
@@ -126,8 +154,9 @@ def buscaEvento(evento):
 def verificaStatus(evento):
 
     cursor = conexao.cursor()
-    comando = f'SELECT status FROM eventos WHERE Nome = "{evento}"'
-    cursor.execute(comando)
+    comando = f'SELECT status FROM eventos WHERE Nome = %s'
+    valor = (evento)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchone()
 
     return resultado
@@ -136,8 +165,9 @@ def verificaStatus(evento):
 def listar_inscritos(evento):
 
     cursor = conexao.cursor()
-    comando = f'SELECT * FROM inscritos WHERE Evento = "{evento}"'
-    cursor.execute(comando)
+    comando = f'SELECT * FROM inscritos WHERE Evento = %s'
+    valor = (evento)
+    cursor.execute(comando, valor)
     resultado = cursor.fetchall()
 
     return resultado
@@ -148,6 +178,30 @@ def presenca(id_inscrito, evento):
     status = "true"
 
     cursor = conexao.cursor()
-    comando = f'UPDATE inscritos SET Presenca = "{status}" WHERE id = "{id_inscrito}" AND Evento = "{evento}"'
-    cursor.execute(comando)
+    comando = f'UPDATE inscritos SET Presenca = %s WHERE id = %s AND Evento = %s'
+    valores = (status, id_inscrito, evento)
+    cursor.execute(comando, valores)
+    conexao.commit()
+
+# verifica se um usuario estava inscrito em um evento
+def checa_inscrito(evento, nome):
+
+    cursor = conexao.cursor()
+    comando = f'SELECT * FROM inscritos WHERE Evento = %s AND Nome = %s'
+    valores = (evento, nome)
+    cursor.execute(comando, valores)
+    resultado = cursor.fetchall()
+
+    if resultado:
+        return True
+    else:
+        return False
+
+# cadastra avaliação de usuário sobre um evento
+def avaliacao(nome, evento, estrelas, comentario):
+
+    cursor = conexao.cursor()
+    comando = f'INSERT INTO avaliacao (Nome, Evento, Estrelas, Comentario) VALUES (%s, %s, %s, %s)'
+    valores = (nome, evento, estrelas, comentario)
+    cursor.execute(comando, valores)
     conexao.commit()

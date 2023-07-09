@@ -1,5 +1,5 @@
 from controller.main import create_controller, cancelar_controller, iniciar_controller, concluir_controller, listarEventos_controller, listarEventosPorData_controller, listarEventosPorCat_controller
-from controller.inscritos import inscricao_controller, inscritos_controller, presenca_controller
+from controller.inscritos import inscricao_controller, inscritos_controller, presenca_controller, avaliacao_controller
 from flask import Blueprint
 
 
@@ -54,3 +54,8 @@ def inscritos():
 @bp.route('/inscricao/presenca', methods=['POST'])
 def presenca():
     return presenca_controller()
+
+# rota para enviar avaliação de um evento
+@bp.route('/avaliacao', methods=['POST'])
+def avaliacao():
+    return avaliacao_controller()
