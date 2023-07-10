@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "7128a794-026e-4065-9e82-810d5e2f1716",
+		"name": "EVENTOS PYTHON",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25064896",
+		"_collection_link": "https://www.postman.com/technical-cosmologist-25885317/workspace/sistema-de-eventos/collection/25064896-7128a794-026e-4065-9e82-810d5e2f1716?action=share&creator=25064896&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Criar evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Evento ok",
+							"type": "text"
+						},
+						{
+							"key": "data_inicio",
+							"value": "2023-07-01",
+							"type": "text"
+						},
+						{
+							"key": "data_termino",
+							"value": "2023-07-01",
+							"type": "text"
+						},
+						{
+							"key": "hora_inicio",
+							"value": "13:00:00",
+							"type": "text"
+						},
+						{
+							"key": "hora_termino",
+							"value": "19:00:00",
+							"type": "text"
+						},
+						{
+							"key": "local",
+							"value": "Nossa Senhora do Socorro",
+							"type": "text"
+						},
+						{
+							"key": "descricao",
+							"value": "teste",
+							"type": "text"
+						},
+						{
+							"key": "vagas",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "categoria",
+							"value": "B",
+							"type": "text"
+						},
+						{
+							"key": "id_user",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "16",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"create"
+					]
+				},
+				"description": "StartFragment\n\nDeve ser passado as informações do evento para que o mesmo seja criado no sistema.\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancelar evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "16",
+							"type": "text"
+						},
+						{
+							"key": "id_user",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"create"
+					]
+				},
+				"description": "StartFragment\n\nDeve ser passado o id (id) do evento e o id (id_user) do usuário para requisitar que o evento seja cancelado.\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Iniciar evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "22",
+							"type": "text"
+						},
+						{
+							"key": "id_user",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/iniciar",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"iniciar"
+					]
+				},
+				"description": "Deve ser passado o id (id) do evento e o id (id_user) do usuário para requisitar que o evento seja iniciado."
+			},
+			"response": []
+		},
+		{
+			"name": "Concluir evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "23",
+							"type": "text"
+						},
+						{
+							"key": "id_user",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/concluir",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"concluir"
+					]
+				},
+				"description": "StartFragment\n\nDeve ser passado o id (id) do evento e o id (id_user) do usuário para requisitar que o evento seja iniciado.\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Listar todos os eventos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/eventos/listar_eventos",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"listar_eventos"
+					]
+				},
+				"description": "Não é necessário passar nenhum parâmetro."
+			},
+			"response": []
+		},
+		{
+			"name": "Listra eventos por data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "data_inicio",
+							"value": "2023-07-02",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/listar/data",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"listar",
+						"data"
+					]
+				},
+				"description": "Ao ser informado a data de inicio do evento (data_inicio), é retornado um json com todos os eventos agendados para essa data."
+			},
+			"response": []
+		},
+		{
+			"name": "Listar eventos por categoria",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "categoria",
+							"value": "C",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/listar/categoria",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"listar",
+						"categoria"
+					]
+				},
+				"description": "Deve ser informado a categoria do evento, é retornado um json com todos os eventos que são da categoria informada."
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar inscrição",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Matheus",
+							"type": "text"
+						},
+						{
+							"key": "evento",
+							"value": "Evento teste ",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/inscricao",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"inscricao"
+					]
+				},
+				"description": "Deverá ser informado o nome da pessoa (nome) e o nome do evento (evento) para realizar inscrição em um evento."
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuários inscritos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "evento",
+							"value": "Evento novo",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/inscricao/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"inscricao",
+						"listar"
+					]
+				},
+				"description": "Deverá ser informado o nome do evento (evento), após isso será retornado todos os usuários inscritos no evento informado."
+			},
+			"response": []
+		},
+		{
+			"name": "Confirmar presença em um evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "evento",
+							"value": "Teste",
+							"type": "text"
+						},
+						{
+							"key": "id_inscrito",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "id_user",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/inscricao/presenca",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"inscricao",
+						"presenca"
+					]
+				},
+				"description": "Deverá ser informado o nome do evento (evento), id do usuario inscrito (id_inscrito) e o id do usuário que está fazendo a requisição (id_user), após isso será informado se a presença foi confirmada com sucesso."
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar avaliação",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Matheus",
+							"type": "text"
+						},
+						{
+							"key": "evento",
+							"value": "Evento teste",
+							"type": "text"
+						},
+						{
+							"key": "estrelas",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "comentario",
+							"value": "sss",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/eventos/avaliacao",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eventos",
+						"avaliacao"
+					]
+				},
+				"description": "Devem ser informado o nome do usuario (nome), o evento (evento), a quantidade de estrelas (estrelas), bem como o comentario sobre o evento (comentario)."
+			},
+			"response": []
+		}
+	]
+}
